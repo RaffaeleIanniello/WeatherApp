@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astro Weather</title>
+    <style>
+         body {
+    font-family: 'Arial', sans-serif;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+    background-color: #000;
+    color: #fff;
+}
+.star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background-color: #fff;
+            animation: twinkle 1s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0;
+            }
+        }
+
+.weather-container {
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(1, 1, 1, 0.3);
+    border-color: rgb(178, 128, 224);
+}
+
+.search-container {
+    margin-top: 20px;
+}
+
+input {
+    padding: 8px;
+    font-size: 16px;
+    border-color: rgb(178, 128, 224);
+    border-radius: 10px;
+    color: rgb(136, 83, 186);
+}
+input:hover{
+    background-color: whitesmoke;
+}
+
+button {
+    padding: 8px 16px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: rgb(178, 128, 224);
+    color: white;
+    border-radius: 10px;
+    border:none;
+}
+button:hover{
+    background-color: rgb(136, 83, 186);
+}
+
+#weatherInfo {
+    margin-top: 20px;
+    color:rgb(136, 83, 186)
+}
+h1{
+    color: rgb(63, 10, 113);
+}
+    
+    </style>
+</head>
+<body>
+    <div class="weather-container">
+        <h1>ASTRO WEATHER</h1>
+        <div class="search-container">
+            <input type="text" id="cityInput" placeholder="Enter city">
+            <button onclick="getWeather()">VERIFICA METEO</button>
+        </div>
+        <div id="weatherInfo"></div>
+    </div>
+
+    <script>
+         document.addEventListener("DOMContentLoaded", function () {
+            const numberOfStars = 100;
+
+            for (let i = 0; i < numberOfStars; i++) {
+                createStar();
+            }
+
+            function createStar() {
+                const star = document.createElement("div");
+                star.className = "star";
+                star.style.left = Math.random() * window.innerWidth + "px";
+                star.style.top = Math.random() * window.innerHeight + "px";
+                document.body.appendChild(star);
+            }
+        });
+        function getWeather() {
+    const apiKey = '240867e9b4d771d2d83abd4aad9c55b3';
+    const cityInput = document.getElementById('cityInput');
+    const weatherInfo = document.getElementById('weatherInfo');
+
+    const city = cityInput.value;
+
+    if (city === '') {
+        alert('Please enter a city');
+        return;
+    }
+
+    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+
+    fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+            const temperature = data.main.temp;
+            const description = data.weather[0].description;
+
+            weatherInfo.innerHTML = `<p>Temperature: ${temperature}°C</p><p>Description: ${description}</p>`;
+        })
+        .catch(error => {
+            console.error('Error fetching weather data:', error);
+            weatherInfo.innerHTML = 'Error fetching weather data';
+        });
+}
+document.addEventListener("DOMContentLoaded", function () {
+            const numberOfStars = 100;
+
+            for (let i = 0; i < numberOfStars; i++) {
+                createStar();
+            }
+
+            function createStar() {
+                const star = document.createElement("div");
+                star.className = "star";
+                star.style.left = Math.random() * window.innerWidth + "px";
+                star.style.top = Math.random() * window.innerHeight + "px";
+                document.body.appendChild(star);
+            }
+        });
+    </script>
+</body>
+</html>
